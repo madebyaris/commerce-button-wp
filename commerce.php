@@ -27,7 +27,7 @@ class CommerceButton {
 	 *
 	 * @var array $list_commerce.
 	 */
-	protected $list_commerce = [ 'bukalapak', 'tokopedia' ];
+	protected $list_commerce = [ 'bukalapak', 'tokopedia', 'shopee' ];
 
 	/**
 	 * Prefix.
