@@ -10,6 +10,7 @@
  * @package commerce-button
  */
 
+ 
 namespace commerceBtn;
 
 // If accessed directly, abort!
@@ -46,6 +47,10 @@ class CommerceButton {
 			add_action( 'add_meta_boxes', array( $this, 'register_metabox_button' ) ); // Ini adalah cara untuk memanggil didalam class.
 			add_action( 'save_post', array( $this, 'save_commerce_button' ) ); // aksi untuk menyimpan post.
 		}
+
+		add_filter( 'the_content', array( $this, 'show_the_button' ) );
+
+
 	}
 
 	/**
@@ -120,7 +125,29 @@ class CommerceButton {
 		}
 	}
 
+	/**
+	 * Munculkan Tombol.
+	 */
+	public function show_the_button( $content ) {
+		$html = '';
+		$post_id = get_the_ID();
+		$html .= "<p>";
+		foreach ( $this->list_commerce as $commerce ) :
+			$meta_name = $this->prefix . $commerce;
+
+			$value_url = get_post_meta( $post_id, $meta_name, true );
+
+			if ( isset( $value_url ) ) {
+				$html .= "<a href='". esc_url($value_url) ."'> $commerce </a><br>";
+			}
+		endforeach;
+		$html .= "</p>";
+
+		return  $content . $html;
+	}
+
 
 }
 
 new CommerceButton();
+
